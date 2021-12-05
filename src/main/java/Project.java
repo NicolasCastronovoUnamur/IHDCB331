@@ -1,5 +1,8 @@
 import Models.TestCaseModel;
 import Models.TreeNode;
+import com.sun.source.tree.Tree;
+
+import java.util.*;
 
 public class Project {
     public static void main(String[] args) {
@@ -16,23 +19,21 @@ public class Project {
         TreeNode d = new TreeNode(5, a);
         TreeNode e = new TreeNode(6, a);
 
-        TreeNode f = new TreeNode(2, b);
-        TreeNode g = new TreeNode(3, b);
-        TreeNode h = new TreeNode(4, b);
+        TreeNode f = new TreeNode(7, b);
+        TreeNode g = new TreeNode(8, b);
+        TreeNode h = new TreeNode(9, b);
 
         TreeNode[] nodes = {root, a, b, c, d, e, f, g, h};
 
-        for (TreeNode node : nodes) {
-            System.out.println(node.Depth);
-        }
-
-        System.out.println("...");
-
         nodes = sortByDepth(nodes);
 
+        var pathList = getAllPaths(nodes, testCase.PathSize);
 
-        for (TreeNode node : nodes) {
-            System.out.println(node.Depth);
+        for (List<TreeNode> path : pathList) {
+            for (TreeNode node : path) {
+                System.out.println(node.Id);
+            }
+            System.out.println("...");
         }
     }
 
@@ -48,5 +49,24 @@ public class Project {
             }
         }
         return nodeArray;
+    }
+
+    public static List<List<TreeNode>> getAllPaths(TreeNode[] nodeArray, int pathSize) {
+        List<List<TreeNode>> pathList = new ArrayList<>();
+        for (TreeNode node : nodeArray) {
+            List<TreeNode> path = new ArrayList<>();
+            TreeNode tempNode = node;
+            for (int i = 0; i < pathSize; i++) {
+                path.add(tempNode);
+                if (tempNode.Depth == 0) {
+                    break;
+                }
+                tempNode = tempNode.Parent;
+            }
+            if (path.size() == 3){
+                pathList.add(path);
+            }
+        }
+        return pathList;
     }
 }

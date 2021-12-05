@@ -1,12 +1,10 @@
 package Models;
 
-import java.util.List;
-
 public class TestCaseModel {
-    public TestCaseModel(int numberOfNodes, int numberOfPaths) {
+    public TestCaseModel(int numberOfNodes, int pathSize) {
         NumberOfNodes = numberOfNodes;
-        NumberOfPaths = numberOfPaths;
+        PathSize = pathSize;
     }
     public int NumberOfNodes;
-    public int NumberOfPaths;
+    public int PathSize;
 }
