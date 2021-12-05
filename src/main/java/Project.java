@@ -1,12 +1,11 @@
 import Models.TestCaseModel;
 import Models.TreeNode;
-import com.sun.source.tree.Tree;
 
 import java.util.*;
 
 public class Project {
     public static void main(String[] args) {
-        TestCaseModel testCase = new TestCaseModel(9, 3);
+        TestCaseModel testCase = new TestCaseModel(9, 2);
 
         TreeNode root = new TreeNode(1, null);
         root.IsRoot = true;
@@ -29,12 +28,9 @@ public class Project {
 
         var pathList = getAllPaths(nodes, testCase.PathSize);
 
-        for (List<TreeNode> path : pathList) {
-            for (TreeNode node : path) {
-                System.out.println(node.Id);
-            }
-            System.out.println("...");
-        }
+        var paths = getNonCrossingPaths(pathList);
+
+        System.out.println("Numbers of paths : " + paths);
     }
 
     public static TreeNode[] sortByDepth(TreeNode[] nodeArray) {
@@ -63,10 +59,32 @@ public class Project {
                 }
                 tempNode = tempNode.Parent;
             }
-            if (path.size() == 3){
+            if (path.size() == pathSize){
                 pathList.add(path);
             }
         }
         return pathList;
+    }
+
+    public static int getNonCrossingPaths(List<List<TreeNode>> pathList) {
+        int paths = 0;
+        boolean isCrossing = false;
+        List<Integer> usedNodes = new ArrayList<>();
+        for (List<TreeNode> path : pathList) {
+            for (TreeNode node : path) {
+                if (usedNodes.contains(node.Id)) {
+                    isCrossing = true;
+                    break;
+                }
+                else {
+                    usedNodes.add(node.Id);
+                }
+            }
+            if (!isCrossing) {
+                paths++;
+            }
+            isCrossing = false;
+        }
+        return paths;
     }
 }
